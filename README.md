@@ -1,7 +1,5 @@
 # Fever Model - Docokids  
 
-![Progress](https://progress-bar.dev/30/?title=Progress)  
-
 ## 🚀 Links & Badges  
 [![Documentation Status](https://img.shields.io/badge/docs-online-success)](URL_DOCUMENTATION)  
 [![License: GPL v2](https://img.shields.io/badge/license-GPL--2.0-blue.svg)](LICENSE)  
