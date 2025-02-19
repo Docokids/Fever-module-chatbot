@@ -77,6 +77,6 @@ The repository will be **continuously updated** as development progresses.
 This project is licensed under the GNU General Public License v2.0. See the LICENSE file for more details.
 
 ## 💡 Help and Support
-For questions, feedback, or contributions, please open an issue in GitHub or contact us at [agomez@docokids.com].
+For questions, feedback, or contributions, please open an issue in GitHub or contact us at agomez@docokids.com.
 
 📌 Stay updated with the latest developments and contribute to the project!
