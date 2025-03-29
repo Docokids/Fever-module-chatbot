@@ -2,7 +2,7 @@
 
 ## 🚀 Links & Badges  
 [![Documentation Status](https://img.shields.io/badge/docs-online-success)](URL_DOCUMENTATION)  
-[![License: GPL v2](https://img.shields.io/badge/license-GPL--2.0-blue.svg)](LICENSE)  
+[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)  
 [![Repo Status](https://img.shields.io/badge/status-active-brightgreen)](URL_REPO)  
 
 ---
