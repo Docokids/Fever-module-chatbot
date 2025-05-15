@@ -57,6 +57,18 @@ FastAPI Application
 - **Prometheus** + **Grafana** (metrics)
 - **OpenTelemetry** (distributed traces)
 - **Sentry** (error monitoring)
+- **Jekyll** (documentation)
+- **GitHub Pages** (documentation hosting)
+- **GitHub Actions** (CI/CD)
+- **Docker** (containerization)
+- **Uvicorn** (ASGI server)
+- **Pytest** (testing)
+- **Black** (code formatting)
+- **Flake8** (linting)
+- **MyPy** (type checking)
+- **Alembic** (database migrations)
+- **JWT** (authentication)
+- **OpenAPI/Swagger** (API documentation)
 
 ---
 
@@ -64,7 +76,39 @@ FastAPI Application
 
 Follow these steps to run the project locally:
 
-### Installation
+### Using Docker Compose (Recommended)
+
+1. Clone the repository:
+
+   ```sh
+   git clone URL_REPO && cd fever-model-docokids
+   ```
+
+2. Create a `.env` file in the root directory with your configuration:
+
+   ```sh
+   APP_NAME=DocoChat
+   LLM_PROVIDER=gemini  # or openai
+   GEMINI_API_KEY=your_gemini_api_key
+   OPENAI_API_KEY=your_openai_api_key
+   REDIS_URL=redis://redis:6379/0
+   POSTGRES_URL=postgresql+asyncpg://postgres:postgres@db:5432/docochat
+   ```
+
+3. Start the services using Docker Compose:
+
+   ```sh
+   docker-compose up --build
+   ```
+
+   This will start:
+   - FastAPI application on http://localhost:8000
+   - PostgreSQL database
+   - Redis cache
+
+4. Access the interactive API documentation at http://localhost:8000/docs
+
+### Manual Installation
 
 1. Clone the repository:
 
@@ -86,34 +130,43 @@ Follow these steps to run the project locally:
    pip install -r requirements.txt
    ```
 
+4. Create a `.env` file with your configuration (see above)
+
+5. Start the application:
+
+   ```sh
+   uvicorn src.main:app --reload
+   ```
+
 ---
 
 ## 🚀 Usage
-
-### Launch the API
-
-```sh
-uvicorn src.main:app --reload
-```
-
-This will expose the interactive documentation at **http://localhost:8000/docs**.
 
 ### API Endpoints
 
 | Method | Route                                 | Description                                 |
 |--------|---------------------------------------|---------------------------------------------|
+| GET    | `/conversations`                      | Lists all conversations with message count and last message timestamp |
 | POST   | `/conversations`                      | Initiates a new conversation                |
 | POST   | `/conversations/{id}/messages`        | Sends a user message and receives model response |
 | GET    | `/conversations/{id}/history`         | Retrieves full conversation history         |
-| GET    | `/providers`                          | Lists available LLM providers               |
-| POST   | `/providers/{name}/select`            | Selects a provider for the conversation     |
-| GET    | `/health`                             | API health status                           |
 
-Example request:
+Example requests:
 
 ```sh
-curl -X POST http://localhost:8000/conversations \
-  -H "Content-Type: application/json"
+# List all conversations
+curl -X GET http://localhost:8000/conversations
+
+# Create new conversation
+curl -X POST http://localhost:8000/conversations
+
+# Send message
+curl -X POST http://localhost:8000/conversations/{conversation_id}/messages \
+  -H "Content-Type: application/json" \
+  -d '{"role": "user", "content": "¿Cómo tratarías la fiebre en un bebé?"}'
+
+# Get conversation history
+curl -X GET http://localhost:8000/conversations/{conversation_id}/history
 ```
 
 ---

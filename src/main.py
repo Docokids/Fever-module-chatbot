@@ -1,30 +1,54 @@
 from fastapi import FastAPI, Depends
-from src.core.config import get_settings, Settings
-from src.db.session import init_db, close_db
-from src.providers.interface import LLMClient
-from src.providers.factory import get_llm_client
-from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from src.api.v1 import conversations
+from src.db.session import init_db, close_db
+from src.cache.redis import init_redis, close_redis
+from src.core.config import get_settings
+import logging
 
-app = FastAPI(title="DocoChat API")
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-# Routers v1
+app = FastAPI(
+    title="DocoChat API",
+    description="API para el módulo de chat de DocoKids",
+    version="1.0.0"
+)
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Incluir routers
 app.include_router(conversations.router)
 
 @app.on_event("startup")
-async def on_startup():
+async def startup_event():
     settings = get_settings()
-    # Inicializar DB y cache
-    await init_db(settings.postgres_url)           # :contentReference[oaicite:8]{index=8}
-    await init_redis(settings.redis_url)            # :contentReference[oaicite:9]{index=9}
-    # Inicializar cliente LLM  
-    app.state.llm_client = get_llm_client(settings) # :contentReference[oaicite:10]{index=10}
+    
+    # Inicializar base de datos
+    await init_db(settings.postgres_url)
+    logger.info("✅ Base de datos inicializada correctamente")
+    
+    # Inicializar Redis
+    app.state.redis = await init_redis()
+    logger.info("✅ Conexión a Redis establecida correctamente")
 
 @app.on_event("shutdown")
-async def on_shutdown():
-    await close_db()                                # :contentReference[oaicite:11]{index=11}
-    await close_redis()                             # :contentReference[oaicite:12]{index=12}
+async def shutdown_event():
+    await close_db()
+    if hasattr(app.state, 'redis'):
+        await close_redis(app.state.redis)
 
 @app.get("/health")
-def health(settings: Settings = Depends(get_settings)):
-    return {"status": "ok", "provider": settings.llm_provider}
+async def health_check():
+    return {"status": "ok"}
