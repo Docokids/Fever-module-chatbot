@@ -14,7 +14,7 @@ Docokids is committed to developing and maintaining an AI-powered chatbot that p
 
 Our mission is to bridge the gap in pediatric healthcare access, particularly for vulnerable populations, by offering real-time, evidence-based responses powered by a specialized large language model (LLM) trained on extensive medical data.
 
-Through UNICEF’s mentorship and funding, we integrate cutting-edge AI technology, ethical data management practices, and human-centered design to ensure that caregivers receive accurate, actionable, and culturally relevant health guidance. By prioritizing usability, security, and continuous improvement, we aim to build trust within communities and establish a scalable model for AI-driven pediatric healthcare assistance.
+Through UNICEF's mentorship and funding, we integrate cutting-edge AI technology, ethical data management practices, and human-centered design to ensure that caregivers receive accurate, actionable, and culturally relevant health guidance. By prioritizing usability, security, and continuous improvement, we aim to build trust within communities and establish a scalable model for AI-driven pediatric healthcare assistance.
 
 ---
 
@@ -22,9 +22,9 @@ Through UNICEF’s mentorship and funding, we integrate cutting-edge AI technolo
 
 The Docokids project is driven by a collaborative ecosystem of partners, including:
 
-- **Docokids’ core development team**: AI engineers, pediatricians, and UX specialists.
+- **Docokids' core development team**: AI engineers, pediatricians, and UX specialists.
 - **UNICEF**: Strategic mentorship, funding, and oversight to ensure alignment with global health goals.
-- **Healthcare professionals**: Validation, supervision, and continuous refinement of the chatbot’s medical accuracy.
+- **Healthcare professionals**: Validation, supervision, and continuous refinement of the chatbot's medical accuracy.
 - **Latin American caregivers and parents**: Active participation in user testing and feedback.
 - **Open-source contributors**: AI researchers, developers, and medical experts contributing to innovation.
 
