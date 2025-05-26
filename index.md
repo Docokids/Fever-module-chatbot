@@ -1,8 +1,9 @@
 ---
+order: 1
 layout: home
-title: Fever Module Chatbot Docs
+title: Home
 ---
 
-Bienvenido a la documentación del Módulo de Chatbot para Fever.
+Welcome to the Fever Chatbot Module Documentation from Docokids.
 
-[Ir a la documentación](./documentation/index.html)
+[Go to documentation](./documentation/index.html)

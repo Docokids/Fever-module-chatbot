@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Pediatric Fever Chatbot API
-nav_order: 1
+nav_order: 2
 ---
 
 # Pediatric Fever Chatbot API
 
-Welcome to the official documentation for the Pediatric Fever Chatbot API. This API leverages AI to assist in handling pediatric fever-related conversations, integrating seamlessly with platforms like DocoChat.
+Welcome to the official documentation for the **Fever Model** of **Docokids**, an AI-driven solution for pediatric fever assessment operating via a conversational API. This API leverages AI to assist in handling pediatric fever-related conversations, integrating seamlessly with platforms like DocoChat.
 
 ## Features
 
@@ -14,6 +14,7 @@ Welcome to the official documentation for the Pediatric Fever Chatbot API. This 
 - **DocoChat Integration**: Easily integrates with DocoChat for real-time communication
 - **FastAPI Framework**: Built using FastAPI for high performance and ease of use
 - **Comprehensive Documentation**: Detailed guides and references to assist developers
+- **Multiple LLM Support**: Seamless switching between LLM providers (OpenAI, Gemini, local)
 
 ## Architecture
 
@@ -27,6 +28,9 @@ FastAPI Application
    └─ LLM Adapters: OpenAIClient, GeminiClient, LocalLLMClient
 ```
 
+- Implements the Repository and Dependency Injection patterns in FastAPI for scalability and testability.
+- Metrics with Prometheus, JSON logging, and OpenTelemetry traces ensure observability in production.
+
 ## Tech Stack
 
 - **Python 3.10+**
@@ -37,6 +41,16 @@ FastAPI Application
 - **Prometheus** + **Grafana** (metrics)
 - **OpenTelemetry** (distributed traces)
 - **Sentry** (error monitoring)
+- **Jekyll** (documentation)
+- **GitHub Pages** (documentation hosting)
+- **GitHub Actions** (CI/CD)
+- **Docker** (containerization)
+- **Uvicorn** (ASGI server)
+- **Pytest** (testing)
+- **Black** (code formatting)
+- **Flake8** (linting)
+- **MyPy** (type checking)
+- **Alembic** (database migrations)
 - **JWT** (authentication)
 - **OpenAPI/Swagger** (API documentation)
 
