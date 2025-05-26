@@ -1,3 +1,9 @@
+---
+layout: default
+title: Docokids Project Charter
+nav_order: 4
+---
+
 # 📘 Docokids Project Charter
 
 ## 🌍 Vision Statement
