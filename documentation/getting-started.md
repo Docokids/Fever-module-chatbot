@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Getting Started
-nav_order: 2
+nav_order: 3
 ---
 
 # Getting Started
 
-This guide will help you set up and run the Pediatric Fever Chatbot API locally.
+This guide will help you set up and run the **Fever Model** of **Docokids** locally. The model has completed the **Exploratory Data Analysis (EDA)** phase and is currently progressing through **Feature Engineering** and **Model Fine-tuning**.
 
 ## Prerequisites
 
@@ -83,10 +83,10 @@ This guide will help you set up and run the Pediatric Fever Chatbot API locally.
 
 | Method | Route | Description |
 |--------|-------|-------------|
-| GET | `/conversations` | Lists all conversations |
-| POST | `/conversations` | Creates a new conversation |
-| POST | `/conversations/{id}/messages` | Sends a message |
-| GET | `/conversations/{id}/history` | Gets conversation history |
+| GET | `/conversations` | Lists all conversations with message count and last message timestamp |
+| POST | `/conversations` | Initiates a new conversation |
+| POST | `/conversations/{id}/messages` | Sends a user message and receives model response |
+| GET | `/conversations/{id}/history` | Retrieves full conversation history |
 
 ### Example Requests
 

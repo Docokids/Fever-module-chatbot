@@ -1,12 +1,12 @@
 ---
 layout: default
 title: API Reference
-nav_order: 3
+nav_order: 4
 ---
 
 # API Reference
 
-This document provides detailed information about the Pediatric Fever Chatbot API endpoints.
+This document provides detailed information about the **Fever Model** of **Docokids** API endpoints.
 
 ## Base URL
 
@@ -51,7 +51,7 @@ Returns a list of all conversations with message count and last message timestam
 POST /conversations
 ```
 
-Creates a new conversation.
+Initiates a new conversation.
 
 **Response**
 ```json
@@ -66,7 +66,7 @@ Creates a new conversation.
 POST /conversations/{id}/messages
 ```
 
-Sends a message in a conversation.
+Sends a user message and receives model response.
 
 **Request Body**
 ```json
