@@ -2,3 +2,24 @@ theme: just-the-docs
 title: Fever Module Chatbot
 description: Documentación del módulo de chatbot para Fever
 url: "https://fever-module-docs.pages.dev"
+
+# Opcional pero recomendado: Excluye carpetas que no son parte del sitio
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - LICENSE
+  - CODE_OF_CONDUCT.md
+  - Dockerfile
+  - docker-compose.yml
+  - requirements.txt
+  - src/
+  - notebooks/
+  - tests/
+  - alembic/
+  - .github/
