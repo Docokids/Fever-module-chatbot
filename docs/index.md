@@ -10,16 +10,53 @@ Welcome to the official documentation for the Pediatric Fever Chatbot API. This 
 
 ## Features
 
-- **AI-Driven Responses**: Provides intelligent responses based on pediatric fever-related queries.
-- **DocoChat Integration**: Easily integrates with DocoChat for real-time communication.
-- **FastAPI Framework**: Built using FastAPI for high performance and ease of use.
-- **Comprehensive Documentation**: Detailed guides and references to assist developers.
+- **AI-Driven Responses**: Provides intelligent responses based on pediatric fever-related queries
+- **DocoChat Integration**: Easily integrates with DocoChat for real-time communication
+- **FastAPI Framework**: Built using FastAPI for high performance and ease of use
+- **Comprehensive Documentation**: Detailed guides and references to assist developers
+
+## Architecture
+
+```
+Client (WhatsApp bot)
+   ↓
+FastAPI Application
+   ├─ Routers: /conversations, /providers, /health
+   ├─ Services: ConversationService, ProviderService
+   ├─ Repositories: Redis (fast), Postgres (audit)
+   └─ LLM Adapters: OpenAIClient, GeminiClient, LocalLLMClient
+```
+
+## Tech Stack
+
+- **Python 3.10+**
+- **FastAPI** (ASGI web framework)
+- **Pydantic** (data validation)
+- **SQLAlchemy (async)** + **PostgreSQL** (audit)
+- **Redis (aioredis)** (conversational state)
+- **Prometheus** + **Grafana** (metrics)
+- **OpenTelemetry** (distributed traces)
+- **Sentry** (error monitoring)
+- **JWT** (authentication)
+- **OpenAPI/Swagger** (API documentation)
 
 ## Getting Started
 
 To begin using the Pediatric Fever Chatbot API, navigate to the [Getting Started](getting-started.md) section.
 
 For detailed information on API endpoints, refer to the [API Reference](api-reference.md).
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](contributing.md) for more details.
+
+## License
+
+This project is licensed under the **GNU GPL v3.0**. See the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you have questions or suggestions, open an issue on GitHub or contact us at **agomez@docokids.com**.
 
 ---
 
