@@ -2,4 +2,3 @@ theme: just-the-docs
 title: Fever Module Chatbot
 description: Documentación del módulo de chatbot para Fever
 url: "https://fever-module-docs.pages.dev"
-destination: docs
