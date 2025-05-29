@@ -29,7 +29,7 @@ class ConversationService:
             raise KeyError("Conversation not found")
 
         # Crear y guardar mensaje del usuario
-        user_msg = Message(**msg_in.dict())
+        user_msg = Message(**msg_in.model_dump())
         conv.messages.append(user_msg)
         await self.repo.add_message(conv_id, user_msg)
 
@@ -38,13 +38,13 @@ class ConversationService:
             raise ValueError("LLM client not initialized. Please provide API key in conversation settings.")
 
         # Llamar al LLM
-        context = [MessageResponse.from_orm(msg) for msg in conv.messages]
+        context = [MessageResponse.model_validate(msg) for msg in conv.messages]
         assistant_msg = await self.llm.generate(context)
         
         # Guardar mensaje del asistente
         await self.repo.add_message(conv_id, assistant_msg)
         
-        return MessageResponse.from_orm(assistant_msg)
+        return MessageResponse.model_validate(assistant_msg)
 
     async def get_conversation(self, conv_id: UUID) -> Conversation:
         conv = await self.repo.get(conv_id)
