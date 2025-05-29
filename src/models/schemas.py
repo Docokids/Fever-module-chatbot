@@ -4,8 +4,8 @@ from uuid import UUID, uuid4
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, ForeignKey, Enum
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, declarative_base
+from pydantic import BaseModel, Field, ConfigDict
 
 Base = declarative_base()
 
@@ -27,30 +27,22 @@ class Conversation(Base):
     messages = relationship("Message", back_populates="conversation", cascade="all, delete-orphan")
 
 # Pydantic models for API
-from pydantic import BaseModel, Field
-
 class MessageCreate(BaseModel):
     role: Literal["user", "assistant"] = "user"
-    content: str = Field(..., example="¿Cómo tratarías la fiebre en un bebé?")
+    content: str = Field(..., json_schema_extra={"example": "¿Cómo tratarías la fiebre en un bebé?"})
 
 class MessageResponse(MessageCreate):
     id: UUID = Field(default_factory=uuid4)
     timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ConversationResponse(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     messages: List[MessageResponse] = []
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ConversationListItem(BaseModel):
     id: UUID
     message_count: int
     last_message_timestamp: datetime | None = None
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

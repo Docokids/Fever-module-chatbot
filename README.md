@@ -169,6 +169,46 @@ curl -X POST http://localhost:8000/conversations/{conversation_id}/messages \
 curl -X GET http://localhost:8000/conversations/{conversation_id}/history
 ```
 
+## 🧪 Testing
+
+The project uses pytest for testing with async support through pytest-asyncio. For detailed testing documentation, see [Testing Guide](docs/testing.md).
+
+### Quick Start
+
+1. Install test dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+2. Run tests:
+   ```sh
+   # Run all tests
+   pytest tests/ -v
+
+   # Run with coverage
+   pytest --cov=src tests/
+   ```
+
+### Test Structure
+
+```
+tests/
+├── test_config.py      # Configuration tests
+├── test_conversations.py # API endpoint tests
+├── test_repositories.py # Database repository tests
+└── test_services.py    # Business logic tests
+```
+
+### Key Features
+
+- Async test support with pytest-asyncio
+- FastAPI TestClient for API testing
+- Database transaction management
+- Mock support for external dependencies
+- Coverage reporting
+
+For more information about testing, including best practices, patterns, and troubleshooting, see the [Testing Guide](docs/testing.md).
+
 ---
 
 ## 🤝 Contributing
