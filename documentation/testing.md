@@ -1,4 +1,10 @@
-# Getting Started with Testing
+---
+layout: default
+title: Testing Guide
+nav_order: 7
+---
+
+# Testing Guide
 
 ## Overview
 
