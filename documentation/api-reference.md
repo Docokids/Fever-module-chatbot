@@ -161,22 +161,4 @@ Rate limit headers are included in all responses:
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 99
 X-RateLimit-Reset: 1616248800
-```
-
-## WebSocket Support
-
-The API also supports WebSocket connections for real-time communication:
-
-```javascript
-const ws = new WebSocket('ws://localhost:8000/ws/conversations/{id}');
-
-ws.onmessage = (event) => {
-  const message = JSON.parse(event.data);
-  console.log('Received:', message);
-};
-
-ws.send(JSON.stringify({
-  role: 'user',
-  content: 'Hello'
-}));
 ``` 

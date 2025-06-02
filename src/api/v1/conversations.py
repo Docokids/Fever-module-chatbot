@@ -1,5 +1,5 @@
 # src/api/v1/conversations.py
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from uuid import UUID
 from pydantic import BaseModel
 from typing import List
@@ -7,6 +7,7 @@ from src.models.schemas import ConversationResponse, MessageResponse, MessageCre
 from src.services.conversation_service import ConversationService
 from src.db.session import get_repository
 from src.providers.factory import get_llm_client
+from src.core.exceptions import NotFoundError, ValidationError, InternalServerError
 
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
@@ -30,8 +31,14 @@ async def create_conversation(
     Crea una nueva conversación y devuelve su ID.
     Usa la configuración por defecto del sistema.
     """
-    conv = await service.create_conversation(None)
-    return ConversationResponse(id=conv.id, messages=[])
+    try:
+        conv = await service.create_conversation(None)
+        return ConversationResponse(id=conv.id, messages=[])
+    except Exception as e:
+        raise InternalServerError(
+            message="Error al crear la conversación",
+            details={"error": str(e)}
+        )
 
 @router.post(
     "/{conv_id}/messages",
@@ -63,9 +70,15 @@ async def post_message(
     try:
         return await service.handle_message(conv_id, msg)
     except KeyError:
-        raise HTTPException(status_code=404, detail="Conversación no encontrada")
+        raise NotFoundError(
+            message="Conversación no encontrada",
+            details={"conversation_id": str(conv_id)}
+        )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise ValidationError(
+            message=str(e),
+            details={"conversation_id": str(conv_id)}
+        )
 
 @router.get(
     "/{conv_id}/history",
@@ -89,7 +102,15 @@ async def get_history(
             messages=[MessageResponse.from_orm(msg) for msg in conv.messages]
         )
     except KeyError:
-        raise HTTPException(status_code=404, detail="Conversación no encontrada")
+        raise NotFoundError(
+            message="Conversación no encontrada",
+            details={"conversation_id": str(conv_id)}
+        )
+    except Exception as e:
+        raise InternalServerError(
+            message="Error al obtener el historial",
+            details={"conversation_id": str(conv_id), "error": str(e)}
+        )
 
 @router.get(
     "/",
@@ -108,4 +129,10 @@ async def list_conversations(
     - Cantidad de mensajes
     - Timestamp del último mensaje
     """
-    return await service.list_conversations()
+    try:
+        return await service.list_conversations()
+    except Exception as e:
+        raise InternalServerError(
+            message="Error al listar las conversaciones",
+            details={"error": str(e)}
+        )
