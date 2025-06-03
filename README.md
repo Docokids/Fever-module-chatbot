@@ -108,36 +108,6 @@ Follow these steps to run the project locally:
 
 4. Access the interactive API documentation at http://localhost:8000/docs
 
-### Manual Installation
-
-1. Clone the repository:
-
-   ```sh
-   git clone URL_REPO && cd fever-model-docokids
-   ```
-
-2. Create and activate a virtual environment:
-
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate     # Windows
-   ```
-
-3. Install dependencies:
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file with your configuration (see above)
-
-5. Start the application:
-
-   ```sh
-   uvicorn src.main:app --reload
-   ```
-
 ---
 
 ## 🚀 Usage
