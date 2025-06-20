@@ -7,6 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from src.providers.factory import get_llm_client
 from typing import List
+import logging
+
+logger = logging.getLogger(__name__)
 
 class ConversationService:
     def __init__(self, repo: ConversationRepository, llm: LLMClient | None = None):
@@ -37,12 +40,25 @@ class ConversationService:
         if not self.llm:
             raise ValueError("LLM client not initialized. Please provide API key in conversation settings.")
 
-        # Llamar al LLM
-        context = [MessageResponse.model_validate(msg) for msg in conv.messages]
-        assistant_msg = await self.llm.generate(context)
+        # Preparar el contexto para el LLM
+        # Convertir todos los mensajes previos al formato que espera el LLM
+        context_messages = []
+        for msg in conv.messages:
+            context_messages.append(Message(
+                role=msg.role,
+                content=msg.content,
+                timestamp=msg.timestamp
+            ))
+
+        logger.info(f"Enviando contexto con {len(context_messages)} mensajes al LLM")
+        
+        # Llamar al LLM con el contexto completo
+        assistant_msg = await self.llm.generate(context_messages)
         
         # Guardar mensaje del asistente
         await self.repo.add_message(conv_id, assistant_msg)
+        
+        logger.info(f"Respuesta del LLM generada: {assistant_msg.content[:100]}...")
         
         return MessageResponse.model_validate(assistant_msg)
 

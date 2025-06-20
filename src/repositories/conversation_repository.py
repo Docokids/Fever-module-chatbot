@@ -6,21 +6,22 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from src.models.schemas import Conversation, Message
-from src.db.repository import ConversationRepository as BaseRepository
 
-class ConversationRepository(BaseRepository):
+class ConversationRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
     async def get(self, conversation_id: UUID) -> Optional[Conversation]:
         """Obtiene una conversación por su ID"""
-        query = select(Conversation).options(selectinload(Conversation.messages)).where(Conversation.id == conversation_id)
+        query = select(Conversation).where(Conversation.id == conversation_id).options(
+            selectinload(Conversation.messages)
+        )
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
 
     async def create(self, conversation: Conversation) -> Conversation:
         """Crea una nueva conversación"""
-        await self.session.add(conversation)
+        self.session.add(conversation)
         await self.session.commit()
         await self.session.refresh(conversation)
         return conversation
