@@ -14,11 +14,11 @@ router = APIRouter(prefix="/conversations", tags=["conversations"])
 def get_service(repo=Depends(get_repository), llm=Depends(get_llm_client)):
     return ConversationService(repo, llm)
 
-@router.get(
+@router.post(
     "",
     response_model=ConversationResponse,
     status_code=status.HTTP_201_CREATED,
-    summary="Iniciar nueva conversación",
+    summary="Crear nueva conversación",
     openapi_extra={
         "requestBody": None
     }
@@ -92,7 +92,7 @@ async def get_history(
         raise HTTPException(status_code=404, detail="Conversación no encontrada")
 
 @router.get(
-    "/",
+    "",
     response_model=List[ConversationListItem],
     summary="Listar todas las conversaciones",
     openapi_extra={
