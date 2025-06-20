@@ -11,10 +11,32 @@ Welcome to the official documentation for the **Fever Model** of **Docokids**, a
 ## Features
 
 - **AI-Driven Responses**: Provides intelligent responses based on pediatric fever-related queries
+- **Advanced Prompt Engineering**: Sophisticated conversation system that simulates real pediatric consultations
 - **DocoChat Integration**: Easily integrates with DocoChat for real-time communication
 - **FastAPI Framework**: Built using FastAPI for high performance and ease of use
 - **Comprehensive Documentation**: Detailed guides and references to assist developers
 - **Multiple LLM Support**: Seamless switching between LLM providers (OpenAI, Gemini, local)
+
+## 🧠 Prompt Engineering System
+
+The chatbot implements an advanced **prompt engineering system** that simulates real pediatric consultations through structured conversation phases:
+
+### **Conversation Phases**
+
+1. **INITIAL**: First interaction - asks for child's age
+2. **DISCOVERY**: Symptom exploration - one question at a time
+3. **ASSESSMENT**: Detailed evaluation - intensity, duration, behavior
+4. **GUIDANCE**: Educational guidance and recommendations
+
+### **Key Features**
+
+- **One Question Per Response**: Ensures focused, natural conversation flow
+- **Context-Aware Questions**: Adapts questions based on information already provided
+- **Medical Safety Checks**: Automatic detection of emergency symptoms
+- **Structured Discovery**: Progressive information gathering like real medical consultations
+- **Pediatric Expertise**: Specialized prompts for child health assessment
+
+For detailed documentation on the prompt engineering system, see [Prompt Engineering Guide](prompt-engineering.md).
 
 ## Architecture
 

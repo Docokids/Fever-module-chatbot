@@ -14,6 +14,7 @@
 - [About](#about)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
+- [Prompt Engineering System](#prompt-engineering-system)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -69,6 +70,41 @@ FastAPI Application
 - **Alembic** (database migrations)
 - **JWT** (authentication)
 - **OpenAPI/Swagger** (API documentation)
+
+---
+
+## 🧠 Prompt Engineering System
+
+The chatbot implements an advanced **prompt engineering system** that simulates real pediatric consultations through structured conversation phases:
+
+### **Conversation Phases**
+
+1. **INITIAL**: First interaction - asks for child's age
+2. **DISCOVERY**: Symptom exploration - one question at a time
+3. **ASSESSMENT**: Detailed evaluation - intensity, duration, behavior
+4. **GUIDANCE**: Educational guidance and recommendations
+
+### **Key Features**
+
+- **One Question Per Response**: Ensures focused, natural conversation flow
+- **Context-Aware Questions**: Adapts questions based on information already provided
+- **Medical Safety Checks**: Automatic detection of emergency symptoms
+- **Structured Discovery**: Progressive information gathering like real medical consultations
+- **Pediatric Expertise**: Specialized prompts for child health assessment
+
+### **Example Conversation Flow**
+
+```
+Bot: "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?"
+User: "1 año"
+Bot: "¿Cuál es el síntoma principal que te preocupa?"
+User: "Fiebre"
+Bot: "¿Cuál es la temperatura del niño?"
+User: "39°C"
+Bot: "¿Cuánto tiempo lleva con fiebre?"
+```
+
+For detailed documentation on the prompt engineering system, see [Prompt Engineering Guide](documentation/prompt-engineering.md).
 
 ---
 
