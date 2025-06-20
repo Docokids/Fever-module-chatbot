@@ -16,96 +16,117 @@ http://localhost:8000
 
 ## Authentication
 
-The API uses JWT authentication. Include the token in the Authorization header:
-
-```
-Authorization: Bearer <your_token>
-```
+Currently, the API does not require authentication. All endpoints are publicly accessible.
 
 ## Endpoints
 
 ### Conversations
 
-#### List Conversations
-```http
-GET /conversations
-```
-
-Returns a list of all conversations with message count and last message timestamp.
-
-**Response**
-```json
-{
-  "conversations": [
-    {
-      "id": "string",
-      "message_count": 0,
-      "last_message_at": "2024-03-20T12:00:00Z"
-    }
-  ]
-}
-```
-
-#### Create Conversation
+#### Create New Conversation
 ```http
 POST /conversations
 ```
 
-Initiates a new conversation.
+Creates a new conversation and returns its ID.
 
 **Response**
 ```json
 {
-  "id": "string",
-  "created_at": "2024-03-20T12:00:00Z"
+  "id": "uuid-string",
+  "messages": []
 }
 ```
 
+**Status Code**: `201 Created`
+
 #### Send Message
 ```http
-POST /conversations/{id}/messages
+POST /conversations/{conv_id}/messages
 ```
 
-Sends a user message and receives model response.
+Sends a user message and receives an AI response from the pediatric chatbot.
 
 **Request Body**
 ```json
 {
   "role": "user",
-  "content": "string"
+  "content": "¿Cuál es la edad del niño?"
 }
 ```
 
 **Response**
 ```json
 {
-  "id": "string",
+  "id": "uuid-string",
   "role": "assistant",
-  "content": "string",
-  "created_at": "2024-03-20T12:00:00Z"
+  "content": "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?",
+  "timestamp": "2024-03-20T12:00:00Z"
 }
 ```
+
+**Status Code**: `200 OK`
+
+**Error Responses**:
+- `404 Not Found`: Conversation not found
+- `400 Bad Request`: Invalid message format
 
 #### Get Conversation History
 ```http
-GET /conversations/{id}/history
+GET /conversations/{conv_id}/history
 ```
 
-Retrieves the full conversation history.
+Retrieves the full conversation history with all messages.
 
 **Response**
 ```json
 {
+  "id": "uuid-string",
   "messages": [
     {
-      "id": "string",
-      "role": "string",
-      "content": "string",
-      "created_at": "2024-03-20T12:00:00Z"
+      "id": "uuid-string",
+      "role": "user",
+      "content": "¿Cuál es la edad del niño?",
+      "timestamp": "2024-03-20T12:00:00Z"
+    },
+    {
+      "id": "uuid-string",
+      "role": "assistant", 
+      "content": "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?",
+      "timestamp": "2024-03-20T12:00:01Z"
     }
   ]
 }
 ```
+
+**Status Code**: `200 OK`
+
+**Error Responses**:
+- `404 Not Found`: Conversation not found
+
+#### List All Conversations
+```http
+GET /conversations/
+```
+
+Lists all conversations with summary information.
+
+**Response**
+```json
+[
+  {
+    "id": "uuid-string",
+    "message_count": 4,
+    "last_message_timestamp": "2024-03-20T12:00:00Z"
+  },
+  {
+    "id": "uuid-string",
+    "message_count": 2,
+    "last_message_timestamp": "2024-03-20T11:30:00Z"
+  }
+]
+```
+
+**Status Code**: `200 OK`
 
 ### Health Check
 
@@ -119,13 +140,53 @@ Checks the health status of the API and its dependencies.
 **Response**
 ```json
 {
-  "status": "healthy",
-  "version": "1.0.0",
-  "dependencies": {
-    "database": "connected",
-    "redis": "connected",
-    "llm_provider": "connected"
-  }
+  "status": "ok"
+}
+```
+
+**Status Code**: `200 OK`
+
+## Data Models
+
+### MessageCreate
+```json
+{
+  "role": "user",
+  "content": "string"
+}
+```
+
+### MessageResponse
+```json
+{
+  "id": "uuid-string",
+  "role": "assistant",
+  "content": "string",
+  "timestamp": "datetime-string"
+}
+```
+
+### ConversationResponse
+```json
+{
+  "id": "uuid-string",
+  "messages": [
+    {
+      "id": "uuid-string",
+      "role": "string",
+      "content": "string",
+      "timestamp": "datetime-string"
+    }
+  ]
+}
+```
+
+### ConversationListItem
+```json
+{
+  "id": "uuid-string",
+  "message_count": 0,
+  "last_message_timestamp": "datetime-string"
 }
 ```
 
@@ -135,93 +196,109 @@ The API uses standard HTTP status codes and returns error messages in the follow
 
 ```json
 {
-  "error": {
-    "code": "string",
-    "message": "string",
-    "details": {}
-  }
+  "detail": "Error message description"
 }
 ```
 
 ### Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `NOT_FOUND` | 404 | Resource not found |
-| `VALIDATION_ERROR` | 400 | Invalid input data |
-| `AUTHENTICATION_ERROR` | 401 | Authentication failed |
-| `AUTHORIZATION_ERROR` | 403 | Not authorized |
-| `INTERNAL_SERVER_ERROR` | 500 | Server error |
+| HTTP Status | Description |
+|-------------|-------------|
+| `400 Bad Request` | Invalid input data or request format |
+| `404 Not Found` | Resource not found (conversation, etc.) |
+| `500 Internal Server Error` | Server error |
 
 ### Example Error Responses
 
 #### Not Found Error
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "message": "Conversation not found",
-    "details": {
-      "conversation_id": "123e4567-e89b-12d3-a456-426614174000"
-    }
-  }
+  "detail": "Conversación no encontrada"
 }
 ```
 
 #### Validation Error
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid message format",
-    "details": {
-      "errors": [
-        {
-          "loc": ["body", "content"],
-          "msg": "field required",
-          "type": "value_error.missing"
-        }
-      ]
-    }
-  }
+  "detail": "Invalid message format"
 }
 ```
 
-#### Authentication Error
-```json
-{
-  "error": {
-    "code": "AUTHENTICATION_ERROR",
-    "message": "Invalid or expired token",
-    "details": {
-      "token_type": "Bearer"
-    }
-  }
-}
+## Example Usage
+
+### Complete Conversation Flow
+
+1. **Create a new conversation**:
+```bash
+curl -X POST "http://localhost:8000/conversations"
 ```
 
-#### Internal Server Error
-```json
-{
-  "error": {
-    "code": "INTERNAL_SERVER_ERROR",
-    "message": "An unexpected error occurred",
-    "details": {
-      "error": "Database connection failed"
-    }
-  }
-}
+2. **Send first message**:
+```bash
+curl -X POST "http://localhost:8000/conversations/{conversation_id}/messages" \
+  -H "Content-Type: application/json" \
+  -d '{"role": "user", "content": "Mi hijo tiene fiebre"}'
 ```
+
+3. **Continue conversation**:
+```bash
+curl -X POST "http://localhost:8000/conversations/{conversation_id}/messages" \
+  -H "Content-Type: application/json" \
+  -d '{"role": "user", "content": "1 año"}'
+```
+
+4. **Get conversation history**:
+```bash
+curl -X GET "http://localhost:8000/conversations/{conversation_id}/history"
+```
+
+5. **List all conversations**:
+```bash
+curl -X GET "http://localhost:8000/conversations"
+```
+
+## Prompt Engineering Integration
+
+The API integrates with the advanced prompt engineering system that:
+
+- **Simulates Real Pediatric Consultations**: The AI behaves like an experienced pediatrician
+- **Structured Conversation Phases**: 
+  - INITIAL: Asks for child's age
+  - DISCOVERY: Explores symptoms one question at a time
+  - ASSESSMENT: Detailed evaluation
+  - GUIDANCE: Educational recommendations
+- **Safety Monitoring**: Automatically detects emergency symptoms
+- **Context Awareness**: Adapts questions based on information already provided
+
+For detailed information about the prompt engineering system, see [Prompt Engineering Guide](prompt-engineering.md).
 
 ## Rate Limiting
 
-The API implements rate limiting to ensure fair usage. Current limits:
-- 100 requests per minute per IP
-- 1000 requests per hour per API key
+Currently, there are no rate limits implemented. However, it's recommended to:
 
-Rate limit headers are included in all responses:
+- Wait at least 1 second between requests
+- Handle responses appropriately before sending new messages
+- Respect the conversation flow for optimal AI responses
+
+## CORS
+
+The API supports CORS with the following configuration:
+
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 ```
-X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 99
-X-RateLimit-Reset: 1616248800
-``` 
+
+## OpenAPI Documentation
+
+Interactive API documentation is available at:
+
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+These provide interactive testing capabilities and detailed schema information. 
