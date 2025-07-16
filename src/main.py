@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
-from src.api.v1 import conversations
+from src.api.v1 import conversations, providers
 from src.db.session import init_db, close_db
 from src.cache.redis import init_redis, close_redis
 from src.core.config import get_settings
@@ -64,6 +64,7 @@ app.add_exception_handler(Exception, general_exception_handler)
 
 # Incluir routers
 app.include_router(conversations.router)
+app.include_router(providers.router)
 
 @app.get("/health")
 async def health_check():
