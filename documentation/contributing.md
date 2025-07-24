@@ -129,3 +129,14 @@ Types:
 ## License
 
 By contributing, you agree that your contributions will be licensed under the project's GNU GPL v3.0 License. 
+
+---
+
+## Issues & Feature Requests
+
+If you find a bug or want to suggest an improvement, please use our issue templates:
+
+- [Report a Bug](https://github.com/alejo14171/Fever-module-chatbot/issues/new?template=bug_report.md): For reporting errors or unexpected behavior in the pediatric fever chatbot. Please provide as much detail as possible.
+- [Request a Feature](https://github.com/alejo14171/Fever-module-chatbot/issues/new?template=feature_request.md): For suggesting new features or improvements. Tell us how your idea could help users or improve the project.
+
+This helps us keep the project organized and ensures your feedback is addressed efficiently. 
