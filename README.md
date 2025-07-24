@@ -294,6 +294,35 @@ python examples/test_providers.py
 
 ---
 
+## 🧪 CI/CD y Cobertura de Tests
+
+Este proyecto utiliza **GitHub Actions** para CI/CD. El workflow está configurado para:
+- Ejecutar **solo los tests** en cada push o pull request a `main`.
+- Exigir una **cobertura mínima de código del 40%** (usando pytest-cov).
+- Si la cobertura baja de ese umbral o algún test falla, el PR será rechazado automáticamente.
+
+### Cómo ejecutar los tests y ver la cobertura localmente
+
+```sh
+# Ejecutar todos los tests y ver la cobertura en consola
+pytest --cov=src --cov-report=term-missing -v
+
+# (Opcional) Ver un reporte HTML navegable
+pytest --cov=src --cov-report=html
+# Luego abre htmlcov/index.html en tu navegador
+```
+
+### Buenas prácticas
+- Escribe tests para cada nueva funcionalidad.
+- No elimines tests sin justificación.
+- Si deshabilitas tests, documenta el motivo y crea un issue para su reactivación.
+- Mantén o mejora la cobertura en cada PR.
+
+### Tests deshabilitados
+- Los tests de `tests/test_adapters.py` y `tests/test_repositories.py` están deshabilitados temporalmente. Se recomienda reactivarlos y corregirlos en el futuro para mejorar la cobertura y robustez del proyecto.
+
+---
+
 ## 🧪 Testing
 
 Run the test suite:

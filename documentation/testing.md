@@ -170,3 +170,25 @@ async def test_db_operation(session):
 - Ensure test environment variables are set
 - Check database migrations are up to date
 - Verify all dependencies are installed 
+
+---
+
+## CI/CD y Cobertura
+
+- El workflow de GitHub Actions ejecuta **solo los tests** y exige una **cobertura mínima del 40%**.
+- Si la cobertura baja de ese umbral o algún test falla, el PR será rechazado automáticamente.
+- Para ejecutar los tests y ver la cobertura localmente:
+
+```sh
+pytest --cov=src --cov-report=term-missing -v
+```
+
+- Para ver un reporte HTML navegable:
+
+```sh
+pytest --cov=src --cov-report=html
+# Luego abre htmlcov/index.html en tu navegador
+```
+
+### Tests deshabilitados
+- Los tests de `tests/test_adapters.py` y `tests/test_repositories.py` están deshabilitados temporalmente. Se recomienda reactivarlos y corregirlos en el futuro para mejorar la cobertura y robustez del proyecto. 
