@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 *.pyc
+.coverage
 
 # Distribución / empaquetado
 .Python

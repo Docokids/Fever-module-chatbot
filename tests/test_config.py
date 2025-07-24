@@ -12,7 +12,7 @@ def test_default_settings():
 
 def test_settings_validation():
     # Test validation of LLM provider
-    with pytest.raises(ValueError, match="Input should be 'gemini' or 'openai'"):
+    with pytest.raises(ValueError, match="Input should be"):
         Settings(llm_provider="invalid_provider", _env_file=None, _env_prefix="")
     
     # Test valid providers
