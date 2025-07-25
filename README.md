@@ -29,7 +29,7 @@
 
 ## 🔍 About
 
-This repository contains the source code for the **Fever Model** of **Docokids**, an AI-driven solution for pediatric fever assessment operating via a conversational API. The model has completed the **Exploratory Data Analysis (EDA)** phase and is currently progressing through **Feature Engineering** and **Model Fine-tuning**. 
+This repository contains the source code for the **Fever Model** of **Docokids**, an AI-driven solution for pediatric fever assessment operating via a conversational API. **The chatbot is designed to handle conversations in Spanish and all API responses are in Spanish by default.** The model has completed the **Exploratory Data Analysis (EDA)** phase and is currently progressing through **Feature Engineering** and **Model Fine-tuning**. 
 
 The FastAPI-based API manages the conversation flow, maintains context, and provides a **modular LLM architecture** that allows seamless switching between different LLM providers (OpenAI, Gemini, DeepSeek, Local) in an isolated manner.
 
@@ -145,18 +145,20 @@ The system uses a sophisticated prompt engineering approach with:
 ### Example Conversation Flow
 
 ```
-User: "Hola"
+Usuario: "Hola"
 Bot: "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?"
 
-User: "2 años"
+Usuario: "2 años"
 Bot: "¿Cuál es el síntoma principal que te preocupa?"
 
-User: "Tiene fiebre"
+Usuario: "Tiene fiebre"
 Bot: "¿Cuál es la temperatura del niño?"
 
-User: "39°C"
+Usuario: "39°C"
 Bot: "¿Cuánto tiempo lleva con fiebre?"
 ```
+
+*Note: The chatbot is designed for Spanish-speaking caregivers. All API responses are in Spanish by default.*
 
 For detailed documentation on the prompt engineering system, see [Prompt Engineering Guide](documentation/prompt-engineering.md).
 
