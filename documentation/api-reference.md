@@ -6,7 +6,7 @@ nav_order: 4
 
 # API Reference
 
-This document provides detailed information about the **Fever Model** of **Docokids** API endpoints.
+This document provides detailed information about the **Fever Model** of **Docokids** API endpoints. **The chatbot and API are designed to handle conversations in Spanish. All responses will be in Spanish by default.**
 
 ## Base URL
 
@@ -50,7 +50,7 @@ Sends a user message and receives an AI response from the pediatric chatbot.
 ```json
 {
   "role": "user",
-  "content": "¿Cuál es la edad del niño?"
+  "content": "Hola, mi niño tiene fiebre."
 }
 ```
 
@@ -59,7 +59,7 @@ Sends a user message and receives an AI response from the pediatric chatbot.
 {
   "id": "uuid-string",
   "role": "assistant",
-  "content": "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?",
+  "content": "Hola, soy Docobot de DocoKids. ¿Cuál es la edad del niño?",
   "timestamp": "2024-03-20T12:00:00Z"
 }
 ```
@@ -85,13 +85,13 @@ Retrieves the full conversation history with all messages.
     {
       "id": "uuid-string",
       "role": "user",
-      "content": "¿Cuál es la edad del niño?",
+      "content": "Hola, mi niño tiene fiebre",
       "timestamp": "2024-03-20T12:00:00Z"
     },
     {
       "id": "uuid-string",
       "role": "assistant", 
-      "content": "Hola, soy el pediatra de DocoKids. ¿Cuál es la edad del niño?",
+      "content": "Hola, soy Docobot de DocoKids. ¿Cuál es la edad del niño?",
       "timestamp": "2024-03-20T12:00:01Z"
     }
   ]
@@ -244,61 +244,5 @@ curl -X POST "http://localhost:8000/conversations/{conversation_id}/messages" \
 ```bash
 curl -X POST "http://localhost:8000/conversations/{conversation_id}/messages" \
   -H "Content-Type: application/json" \
-  -d '{"role": "user", "content": "1 año"}'
+  -d '{"role": "user", "content": "2 años"}'
 ```
-
-4. **Get conversation history**:
-```bash
-curl -X GET "http://localhost:8000/conversations/{conversation_id}/history"
-```
-
-5. **List all conversations**:
-```bash
-curl -X GET "http://localhost:8000/conversations"
-```
-
-## Prompt Engineering Integration
-
-The API integrates with the advanced prompt engineering system that:
-
-- **Simulates Real Pediatric Consultations**: The AI behaves like an experienced pediatrician
-- **Structured Conversation Phases**: 
-  - INITIAL: Asks for child's age
-  - DISCOVERY: Explores symptoms one question at a time
-  - ASSESSMENT: Detailed evaluation
-  - GUIDANCE: Educational recommendations
-- **Safety Monitoring**: Automatically detects emergency symptoms
-- **Context Awareness**: Adapts questions based on information already provided
-
-For detailed information about the prompt engineering system, see [Prompt Engineering Guide](prompt-engineering.md).
-
-## Rate Limiting
-
-Currently, there are no rate limits implemented. However, it's recommended to:
-
-- Wait at least 1 second between requests
-- Handle responses appropriately before sending new messages
-- Respect the conversation flow for optimal AI responses
-
-## CORS
-
-The API supports CORS with the following configuration:
-
-```python
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-```
-
-## OpenAPI Documentation
-
-Interactive API documentation is available at:
-
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
-
-These provide interactive testing capabilities and detailed schema information. 

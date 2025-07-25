@@ -6,7 +6,7 @@ nav_order: 3
 
 # Getting Started
 
-This guide will help you set up and run the **Fever Model** of **Docokids** locally. The model has completed the **Exploratory Data Analysis (EDA)** phase and is currently progressing through **Feature Engineering** and **Model Fine-tuning**.
+This guide will help you set up and run the **Fever Model** of **Docokids** locally. **The chatbot and API are designed to handle conversations in Spanish. All responses will be in Spanish by default.** The model has completed the **Exploratory Data Analysis (EDA)** phase and is currently progressing through **Feature Engineering** and **Model Fine-tuning**.
 
 ## Prerequisites
 
@@ -105,6 +105,8 @@ curl -X POST http://localhost:8000/conversations/{conversation_id}/messages \
 # Get conversation history
 curl -X GET http://localhost:8000/conversations/{conversation_id}/history
 ```
+
+*Note: The API responses are in Spanish by default, as the target audience is Spanish-speaking caregivers. You can adapt the prompts for other languages if needed.*
 
 ## Testing
 

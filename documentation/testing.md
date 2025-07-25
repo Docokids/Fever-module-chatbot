@@ -6,6 +6,8 @@ nav_order: 7
 
 # Testing Guide
 
+**Note: The chatbot is designed to handle conversations in Spanish and all API responses are in Spanish by default.**
+
 ## Overview
 
 This guide provides comprehensive information about testing in the Fever Model project. We use pytest with async support through pytest-asyncio for our test suite.
