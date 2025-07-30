@@ -21,9 +21,12 @@
 - [Usage](#usage)
   - [API Endpoints](#api-endpoints)
   - [LLM Provider Configuration](#llm-provider-configuration)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
 - [Help and Support](#help-and-support)
+- [Issues & Feature Requests](#issues--feature-requests)
+- [Good First Issues](#-good-first-issues)
 
 ---
 
@@ -379,6 +382,17 @@ new_provider_api_key: Optional[str] = os.getenv("NEW_PROVIDER_API_KEY")
 
 ---
 
+## 📚 Documentation
+
+For comprehensive documentation, visit our [Documentation Site](https://alejo14171.github.io/Fever-module-chatbot/):
+
+- **[Getting Started](documentation/getting-started.md)**: Setup and installation guide
+- **[API Reference](documentation/api-reference.md)**: Complete API documentation
+- **[Contributing Guide](documentation/contributing.md)**: How to contribute to the project
+- **[Testing Guide](documentation/testing.md)**: Testing procedures and best practices
+- **[Privacy Policy](documentation/privacy-policy.md)**: How we handle user data and privacy
+- **[Project Charter](documentation/Project_charter.md)**: Project vision, mission, and licensing strategy
+
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](documentation/contributing.md) for more details.
@@ -442,4 +456,15 @@ If you find a bug or want to suggest an improvement, please use our issue templa
 - [Report a Bug](https://github.com/alejo14171/Fever-module-chatbot/issues/new?template=bug_report.md): For reporting errors or unexpected behavior in the pediatric fever chatbot. Please provide as much detail as possible.
 - [Request a Feature](https://github.com/alejo14171/Fever-module-chatbot/issues/new?template=feature_request.md): For suggesting new features or improvements. Tell us how your idea could help users or improve the project.
 
-This helps us keep the project organized and ensures your feedback is addressed efficiently. 
+This helps us keep the project organized and ensures your feedback is addressed efficiently.
+
+## 🚀 Good First Issues
+
+New to the project? Check out our [Good First Issues](.github/ISSUE_TEMPLATE/README.md) - specially curated tasks perfect for new contributors! These issues include:
+
+- **Load Balancing**: Distribute requests across multiple LLM providers
+- **Fallback System**: Automatic failover to backup providers  
+- **Performance Metrics**: Track and monitor provider performance
+- **Real-time Streaming**: Live response streaming
+
+Each issue includes detailed instructions, estimated time, difficulty level, and helpful resources to get you started! 
