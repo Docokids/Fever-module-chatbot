@@ -6,4 +6,4 @@ title: Home
 
 Welcome to the Fever Chatbot Module Documentation from Docokids.
 
-[Go to documentation](./documentation/index.html)
+[Go to documentation](./docs/index.html)
