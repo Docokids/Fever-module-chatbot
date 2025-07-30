@@ -98,7 +98,14 @@ If you have questions or suggestions, open an issue on GitHub or contact us at *
 
 ## 📄 Additional Documentation Pages
 
-Ensure each of the referenced `.md` files (e.g., `getting-started.md`, `api-reference.md`) is created within the `docs/` directory with appropriate content relevant to their titles.
+- **[Getting Started](getting-started.md)**: Complete setup and installation guide
+- **[API Reference](api-reference.md)**: Detailed API documentation and examples
+- **[Contributing Guide](contributing.md)**: How to contribute to the project
+- **[Testing Guide](testing.md)**: Testing procedures and best practices
+- **[Privacy Policy](privacy-policy.md)**: How we handle user data and privacy
+- **[Project Charter](Project_charter.md)**: Project vision, mission, and licensing strategy
+- **[Prompt Engineering](prompt-engineering.md)**: Advanced prompt engineering system documentation
+- **[Internal Code of Conduct](internal_code_of_conduct.md)**: Internal team guidelines
 
 ---
 
