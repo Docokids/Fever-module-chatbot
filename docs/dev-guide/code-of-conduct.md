@@ -1,3 +1,10 @@
+---
+layout: default
+title: Code of Conduct
+parent: Developer Guide
+nav_order: 4
+---
+
 # Internal Code of Conduct Guidelines
 
 This document provides internal guidelines for the Code of Conduct team on how to handle reports and maintain a healthy community. This is an internal document and should not be shared publicly.

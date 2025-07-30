@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Getting Started
-nav_order: 3
+parent: User Guide
+nav_order: 1
 ---
 
 # Getting Started

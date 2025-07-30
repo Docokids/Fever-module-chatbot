@@ -1,7 +1,8 @@
 ---
 layout: default
 title: API Reference
-nav_order: 4
+parent: User Guide
+nav_order: 2
 ---
 
 # API Reference

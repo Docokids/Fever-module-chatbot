@@ -1,3 +1,10 @@
+---
+layout: default
+title: Prompt Engineering
+parent: User Guide
+nav_order: 3
+---
+
 # 🧠 Prompt Engineering System
 
 ## Overview

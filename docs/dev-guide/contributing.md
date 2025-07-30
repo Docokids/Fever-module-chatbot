@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Contributing
-nav_order: 5
+parent: Developer Guide
+nav_order: 1
 ---
 
 # Contributing to Docokids

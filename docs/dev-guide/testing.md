@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Testing Guide
-nav_order: 7
+parent: Developer Guide
+nav_order: 2
 ---
 
 # Testing Guide

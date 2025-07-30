@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Privacy Policy
-nav_order: 7
+parent: User Guide
+nav_order: 4
 ---
 
 # Privacy Policy

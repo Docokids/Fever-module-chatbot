@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Docokids Project Charter
-nav_order: 6
+title: Project Charter
+parent: Developer Guide
+nav_order: 3
 ---
 
 # 📘 Docokids Project Charter
