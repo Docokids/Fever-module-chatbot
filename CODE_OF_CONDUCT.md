@@ -59,8 +59,8 @@ All reports will be handled with strict confidentiality. Information will only b
 ## Code of Conduct Team
 
 The Code of Conduct team consists of:
-- Alejandro Gómez (Project Lead) - [agomez@docokids.com](mailto:agomez@docokids.com)
-- [Additional team member to be appointed]
+- Alejandro Gómez - [agomez@docokids.com](mailto:agomez@docokids.com)
+- Jaiver Camacho - [it@docokids.com](mailto:it@docokids.com)
 
 ---
 
