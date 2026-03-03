@@ -72,6 +72,43 @@ Extracción:
 general_symptoms: decaido:severo, rechaza_alimento:si, vomitos:si, juega:no
 respiratory_symptoms: tos:si, tipo_tos:seca 
 
+========== RESPUESTAS CON OPCIONES NUMERADAS (4 NIVELES DE ESTADO_ALERTA) ==========
+
+NUEVO SISTEMA: Cuando el usuario responde a una pregunta con 4 opciones numeradas:
+
+Usuario recibe:
+"¿Cómo está en cuanto al estado general comparándolo con lo normal?
+1. **Normal**: Juega, sonríe y está alerta como siempre.
+2. **Moderado**: Menos activo que lo normal pero responde cuando lo llamas.
+3. **Somnoliento**: Muy dormido y apenas responde, cuesta despertarlo.
+4. **Muy apagado**: Extremadamente decaído, no responde, parece inerte."
+
+MAPEO DE RESPUESTAS - Extrae SOLO general_symptoms con estado_alerta:
+
+Si usuario menciona "1", "opción 1", "normal", "juega", "está alerta", "como siempre", "sonríe":
+  → EXTRAER: general_symptoms: estado_alerta:normal
+
+Si usuario menciona "2", "opción 2", "moderado", "menos activo", "quieto pero responde", "cansado", "tranquilo pero atiende":
+  → EXTRAER: general_symptoms: estado_alerta:moderado
+
+Si usuario menciona "3", "opción 3", "somnoliento", "muy dormido", "apenas responde", "cuesta despertarlo":
+  → EXTRAER: general_symptoms: estado_alerta:somnoliento
+
+Si usuario menciona "4", "opción 4", "muy apagado", "no responde", "inerte", "extremadamente decaído", "no reacciona":
+  → EXTRAER: general_symptoms: estado_alerta:apagado
+
+✅ EJEMPLO CORRECTO (respuesta a pregunta de 4 opciones):
+Usuario: "Está en el número 2, menos activo pero responde bien cuando lo llamo"
+Extracción:
+general_symptoms: estado_alerta:moderado
+
+✅ EJEMPLO CORRECTO (sin mencionar número):
+Usuario: "Está muy dormido y apenas me responde"
+Extracción:
+general_symptoms: estado_alerta:somnoliento
+
+⚠️ IMPORTANTE: Extrae SOLO general_symptoms con estado_alerta, NO extraigas otros campos que formen parte del estado general previamente.
+
 ========== FORMATO DE RESPUESTA ==========
 
 Retorna SOLO campos nuevos o actualizados:

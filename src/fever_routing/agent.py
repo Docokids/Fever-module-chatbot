@@ -30,7 +30,7 @@ def make_graph(config: TypedDict):
         "recommendation": "recommendation",
         "urgency_recommendation": "urgency_recommendation"
     }
-)
+    )
     builder.add_edge("inquiry", END)
     builder.add_edge("recommendation", END)
     builder.add_edge("urgency_recommendation", END)

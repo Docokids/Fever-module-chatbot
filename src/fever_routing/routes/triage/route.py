@@ -289,11 +289,19 @@ def detect_red_flags(state: State) -> list[str]:
         red_flags.append("convulsiones")
         debug_print(f"  🚨 CRITICAL: Convulsiones detected in symptoms!")
 
-    # RED FLAG 4: Estado general comprometido / Alteración del estado mental
-    if "decaido:si" in general_symp or "decaido:severo" in general_symp:
-        red_flags.append("decaimiento_severo")
-    if "juega:no" in general_symp and "decaido:si" in general_symp:
-        red_flags.append("letargo_posible")
+    # RED FLAG 4: Estado general comprometido (NUEVO SISTEMA CON ESTADO_ALERTA)
+    # Solo estados severos (somnoliento, apagado) activan red flags
+    if "estado_alerta:somnoliento" in general_symp:
+        red_flags.append("letargo_moderado")
+        debug_print(f"⚠️ Letargo moderado detectado (estado_alerta:somnoliento)")
+    
+    if "estado_alerta:apagado" in general_symp:
+        red_flags.append("letargo_severo")
+        debug_print(f"🚨 Letargo severo detectado (estado_alerta:apagado)")
+    
+    # Estados normal y moderado = SIN red flag (normal con fiebre)
+    if "estado_alerta:normal" in general_symp or "estado_alerta:moderado" in general_symp:
+        debug_print(f"✅ Estado normal/moderado - sin red flag")
 
     # Nuevos: Alteración mental severa
     if any(x in general_symp or x in other_symp for x in ["letargo_severo:si", "confuso:si", "no_responde:si", "irritable_extremo:si"]):
@@ -425,10 +433,9 @@ def assess_urgency(state: State) -> dict:
     }
 
     URGENT_FLAGS = {
-        "dificultad_respiratoria_severa", "decaimiento_severo",
-        "letargo_posible", "alteracion_coloracion_piel",
-        "rash_requiere_evaluacion",
-        "menor_3m_fiebre_alta",  # <3 months with fever ≥38°C (or 37.6-37.9°C axillary)
+        "dificultad_respiratoria_severa", "letargo_moderado", "letargo_severo",
+        "alteracion_coloracion_piel", "rash_requiere_evaluacion",
+        "menor_3m_fiebre_alta",  # <3 months with fever ≥38°C
         "3_6m_fiebre_muy_alta",  # 3-6 months with fever ≥39°C
         "fiebre_mayor_40"  # Any age with fever ≥40°C
     }
@@ -459,11 +466,13 @@ def assess_urgency(state: State) -> dict:
 
     # Check for URGENT red flags
     urgent_red_flags = [flag for flag in red_flags if flag in URGENT_FLAGS]
+    debug_print(f"urgent_red_flags:\n{urgent_red_flags}")
     if urgent_red_flags:
         reasons.extend(urgent_red_flags)
 
     # Determine level
     if reasons:
+        debug_print(f"Detectó estas reasons entonces enviará a urgencia:\n{reasons}")
         return {
             "level": "urgent",
             "reasons": reasons,

@@ -170,16 +170,10 @@ Toque la frente, cuello y pecho de {patient_name} con el dorso de su mano y díg
             debug_print(f"  💡 Detected cluster: {cluster_name} with {len(cluster_missing)} missing fields")
             debug_print(f"     Will ask combined question for: {cluster_missing}")
 
-            # Ask combined question for estado_general cluster
-            if cluster_name == "estado_general" and "sintomas_generales" in cluster_missing:
-                return {
-                    "question": f"Para evaluar cómo está {patient_name}, dígame: ¿está jugando y activo/a como siempre, o lo/la nota decaído/a? ¿Está comiendo y tomando líquidos con normalidad?",
-                    "priority": "🟡 IMPORTANTE - Estado general completo",
-                    "field": "sintomas_generales",
-                    "required_fields": ["general_symptoms", "hydration_status", "feeding_status"],
-                    "fallback_value": {"general_symptoms": "juega:si, decaido:no", "hydration_status": "bebe_normal:si", "feeding_status": "come_normal:si"},
-                    "extraction_hint": "Extraer general_symptoms, hydration_status y feeding_status en formato estructurado"
-                }
+            # NOTE: Preguntas individuales se hacen por separado (no agrupadas)
+            # - Estado general (estado_alerta con 4 niveles) → pregunta individual
+            # - Hidratación → pregunta individual
+            # - Alimentación → pregunta individual
 
             # Ask combined question for respiratorio cluster
             if cluster_name == "respiratorio" and "sintomas_respiratorios" in cluster_missing:
@@ -239,15 +233,22 @@ Toque la frente, cuello y pecho de {patient_name} con el dorso de su mano y díg
             "extraction_hint": "Extraer thermometer_location: axilar/rectal/oral/frontal/oido"
         }
 
-    # 7. Síntomas generales
+    # 7. Síntomas generales - NUEVO SISTEMA: 4 niveles de estado_alerta
     if "sintomas_generales" in missing:
         return {
-            "question": "¿Cómo lo/la ve en general? ¿Está jugando y activo/a como siempre, o lo/la nota más decaído/a de lo normal?",
-            "priority": "🟡 IMPORTANTE - Estado general",
+            "question": f"""¿Cómo está {patient_name} en cuanto al estado general comparándolo con lo normal?
+
+1. **Normal**: Juega, sonríe y está alerta como siempre.
+2. **Moderado**: Menos activo que lo normal pero responde cuando lo llamas.
+3. **Somnoliento**: Muy dormido y apenas responde, cuesta despertarlo.
+4. **Muy apagado**: Extremadamente decaído, no responde, parece inerte.
+
+Dime cuál de estas cuatro opciones describe mejor a {patient_name}.""",
+            "priority": "🟡 IMPORTANTE - Estado general (4 niveles)",
             "field": "sintomas_generales",
             "required_fields": ["general_symptoms"],
-            "fallback_value": {"general_symptoms": "juega:si, decaido:no"},
-            "extraction_hint": "Extraer general_symptoms en formato 'clave:valor, clave:valor' (rechaza_alimento, vomitos, decaido, juega)"
+            "fallback_value": {"general_symptoms": "estado_alerta:normal"},
+            "extraction_hint": "Mapea respuesta a: estado_alerta:normal (opción 1), estado_alerta:moderado (opción 2), estado_alerta:somnoliento (opción 3), o estado_alerta:apagado (opción 4)"
         }
 
     # 8. Síntomas respiratorios

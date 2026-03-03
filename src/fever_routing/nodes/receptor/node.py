@@ -228,6 +228,7 @@ def parse_llm_response(response_text: str) -> dict:
 
 
 def receptor_node(state: State):
+    print(f"\nstate en receptor_node:\n{state}\n")
     """
     Nodo receptor: extrae información del mensaje del usuario y actualiza el estado.
     NO genera mensajes de conversación, solo extrae datos.

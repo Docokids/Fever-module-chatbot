@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 
 from fastapi import FastAPI, Depends, HTTPException, status
@@ -26,6 +27,7 @@ from api.feedback import (
     get_feedback_stats
 )
 from config.settings import settings
+from src.fever_routing.utils.logging import debug_print
 
 app = FastAPI(
     title="Fever Routing API",
@@ -91,6 +93,11 @@ class Message(BaseModel):
     message: str
 
 
+class AgentCoreMessage(BaseModel):
+    chat_id: str
+    message: str
+
+
 @app.post("/chat/{chat_id}", dependencies=[Depends(verify_api_key)])
 async def chat(chat_id: str, item: Message, checkpointer: CheckpointerDep):
     """
@@ -103,10 +110,83 @@ async def chat(chat_id: str, item: Message, checkpointer: CheckpointerDep):
         }
     }
     human_message = HumanMessage(content=item.message)
+    debug_print(f"\nhuman_message:\n{human_message}\n")
+    debug_print(f"\ntype human_message:\n{type(human_message)}\n")
     agent = make_graph(config={"checkpoint": checkpointer})
     response = await agent.ainvoke({"messages": [human_message]}, config=config)
+    debug_print(f"\nresponse:\n{response}\n")
+    debug_print(f"\ntype response:\n{type(response)}\n")
     last_message = response["messages"][-1]
+    debug_print(f"\nlast_message:\n{last_message}\n")
+    debug_print(f"\ntype last_message:\n{type(last_message)}\n")
     return {"response": last_message.content}
+
+
+@app.post("/chat_aws")
+async def chat_aws(item: AgentCoreMessage):
+    """
+    Chat endpoint via AWS Bedrock AgentCore runtime.
+    Receives chat_id and message in JSON body.
+    """
+    try:
+        import boto3
+    except ImportError:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="boto3 no está instalado."
+        )
+
+    aws_access_key_id = ""
+    aws_secret_access_key = ""
+    aws_session_token = ""
+    region_name = "us-east-1"
+    agent_runtime_arn = "arn:aws:bedrock-agentcore:us-east-1:623859074752:runtime/agent_core_docokids-z4qW9E55Su"
+    qualifier = "DEFAULT"
+
+    client_kwargs = {
+        "service_name": "bedrock-agentcore",
+        "region_name": region_name,
+    }
+
+    if (
+        aws_access_key_id
+        and aws_secret_access_key
+        and not aws_access_key_id.startswith("REPLACE_WITH_")
+        and not aws_secret_access_key.startswith("REPLACE_WITH_")
+    ):
+        client_kwargs["aws_access_key_id"] = aws_access_key_id
+        client_kwargs["aws_secret_access_key"] = aws_secret_access_key
+        if aws_session_token:
+            client_kwargs["aws_session_token"] = aws_session_token
+
+    try:
+        client = boto3.client(**client_kwargs)
+        payload = {
+            "message": item.message,
+            "chat_id": item.chat_id,
+        }
+
+        response = client.invoke_agent_runtime(
+            agentRuntimeArn=agent_runtime_arn,
+            runtimeSessionId=item.chat_id,
+            payload=json.dumps(payload),
+            qualifier=qualifier,
+        )
+
+        streamed_lines = []
+        for line in response["response"].iter_lines():
+            if line:
+                streamed_lines.append(line.decode("utf-8"))
+
+        return {
+            "chat_id": item.chat_id,
+            "lines": streamed_lines,
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"AWS AgentCore invocation failed: {str(e)}"
+        )
 
 
 @app.post("/chat/{chat_id}/stream", dependencies=[Depends(verify_api_key)])

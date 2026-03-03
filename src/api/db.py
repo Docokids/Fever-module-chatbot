@@ -4,11 +4,11 @@ from fastapi import FastAPI
 from fastapi import Depends
 from typing import Annotated
 
-from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from config.settings import settings
 
 # Global checkpointer instance
-_checkpointer: PostgresSaver | None = None
+_checkpointer: AsyncPostgresSaver | None = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
         # For 'langgraph dev' verification without a real DB, we might want to check if we can use InMemory for dev?
         # But the request is to verify it works.
         
-        async with PostgresSaver.from_conn_string(conn_string) as checkpointer:
+        async with AsyncPostgresSaver.from_conn_string(conn_string) as checkpointer:
             _checkpointer = checkpointer
             await _checkpointer.setup()
 
@@ -45,9 +45,9 @@ async def lifespan(app: FastAPI):
         # Or better, just fail loudly so the user knows they need the DB.
         raise e
 
-def get_checkpointer() -> PostgresSaver:
+def get_checkpointer() -> AsyncPostgresSaver:
     if _checkpointer is None:
         raise RuntimeError("Checkpointer not initialized. Make sure lifespan is running and DB is accessible.")
     return _checkpointer
 
-CheckpointerDep = Annotated[PostgresSaver, Depends(get_checkpointer)]
+CheckpointerDep = Annotated[AsyncPostgresSaver, Depends(get_checkpointer)]
