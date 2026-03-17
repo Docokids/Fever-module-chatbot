@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     
     # Database
     db_uri: str = "postgresql://postgres:postgres@localhost:5432/fever_db"
+    
+    # AWS Bedrock AgentCore
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
+    aws_session_token: str = ""
+    aws_region: str = "us-east-1"
+    aws_agent_runtime_arn: str = ""
 
     # Allow extra fields from .env file
     model_config = SettingsConfigDict(

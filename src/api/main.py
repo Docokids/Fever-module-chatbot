@@ -136,11 +136,11 @@ async def chat_aws(item: AgentCoreMessage):
             detail="boto3 no está instalado."
         )
 
-    aws_access_key_id = ""
-    aws_secret_access_key = ""
-    aws_session_token = ""
-    region_name = "us-east-1"
-    agent_runtime_arn = "arn:aws:bedrock-agentcore:us-east-1:623859074752:runtime/agent_core_docokids-z4qW9E55Su"
+    aws_access_key_id = settings.aws_access_key_id
+    aws_secret_access_key = settings.aws_secret_access_key
+    aws_session_token = settings.aws_session_token
+    region_name = settings.aws_region
+    agent_runtime_arn = settings.aws_agent_runtime_arn
     qualifier = "DEFAULT"
 
     client_kwargs = {
